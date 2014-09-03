@@ -32,10 +32,10 @@ region_variables = {
 }
 
 
-def evaluate(script, local):
+def evaluate(script, var):
     if not script:
         return ""
-    locals().update(local)
+    locals().update(var)
     if script.count("\n") == 0:
         return str(eval(script, globals(), locals()))
     output = io.StringIO()
@@ -46,22 +46,22 @@ def evaluate(script, local):
     return output.getvalue()
 
 
-def generate_local_and_seletion(view):
-    local = {}
+def generate_var_and_seletion(view):
+    var = {}
     for i, sel in enumerate(view.sel()):
         for k, v in variables.items():
-            local[k] = v(i)
+            var[k] = v(i)
         for k, v in region_variables.items():
-            local[k] = v(view, sel)
-        yield i, local, sel
+            var[k] = v(view, sel)
+        yield i, var, sel
 
 
 class MultiEvaluateCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
-        for _, local, sel in generate_local_and_seletion(self.view):
+        for _, var, sel in generate_var_and_seletion(self.view):
             script = self.view.substr(sel)
-            self.view.replace(edit, sel, evaluate(script, local))
+            self.view.replace(edit, sel, evaluate(script, var))
 
 
 class MultiInsertImplCommand(sublime_plugin.TextCommand):
@@ -96,7 +96,7 @@ class MultiEvaluateAndInsertCommand(sublime_plugin.TextCommand):
         scripts = scripts.split('\n')
         scripts_len = len(scripts)
         lines = []
-        for i, local, sel in generate_local_and_seletion(self.view):
+        for i, var, sel in generate_var_and_seletion(self.view):
             script = self.view.substr(sel)
-            lines.append(evaluate(scripts[i % scripts_len], local))
+            lines.append(evaluate(scripts[i % scripts_len], var))
         self.view.run_command("multi_insert_impl", args={"lines": lines}),
