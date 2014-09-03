@@ -1,0 +1,5 @@
+[
+    { "caption": "MultiTools: Multiline Evaluate", "command": "multi_evaluate"},
+    { "caption": "MultiTools: Multiline Insert", "command": "multi_insert"},
+    { "caption": "MultiTools: Multiline Evaluate and Insert", "command": "multi_evaluate_and_insert"}
+]

@@ -1,0 +1,14 @@
+[
+    {
+        "keys": ["alt+e"],
+        "command": "multi_evaluate"
+    },
+    {
+        "keys": ["alt+i"],
+        "command": "multi_insert"
+    },
+    {
+        "keys": ["alt+shift+i"],
+        "command": "multi_evaluate_and_insert"
+    }
+]
