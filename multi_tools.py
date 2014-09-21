@@ -4,6 +4,7 @@ import sublime_plugin
 import sys
 import io
 import uuid
+import struct
 
 preload_modules = ["math", "random", "re", "os"]
 for module in preload_modules:
@@ -16,13 +17,14 @@ def log(*args, **kwds):
     if DEBUG:
         print(*args, **kwds)
 
+MAXINT = 2 ** (struct.Struct('i').size * 8 - 1) - 1
 
 variables = {
     "i":    lambda i: i + 1,
     "a":    lambda i: chr(i + 97),
     "A":    lambda i: chr(i + 65),
     "rd":   lambda i: random(),
-    "ri":   lambda i: randint(-sys.maxint - 1, sys.maxint),
+    "ri":   lambda i: randint(-MAXINT - 1, MAXINT),
     "uuid": lambda i: uuid.uuid4(),
 }
 
