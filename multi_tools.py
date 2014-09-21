@@ -22,7 +22,7 @@ variables = {
     "a":    lambda i: chr(i + 97),
     "A":    lambda i: chr(i + 65),
     "rd":   lambda i: random(),
-    "ri":   lambda i: randint(1, 99),
+    "ri":   lambda i: randint(-sys.maxint - 1, sys.maxint),
     "uuid": lambda i: uuid.uuid4(),
 }
 
@@ -97,6 +97,5 @@ class MultiEvaluateAndInsertCommand(sublime_plugin.TextCommand):
         scripts_len = len(scripts)
         lines = []
         for i, var, sel in generate_var_and_seletion(self.view):
-            script = self.view.substr(sel)
             lines.append(evaluate(scripts[i % scripts_len], var))
         self.view.run_command("multi_insert_impl", args={"lines": lines}),
