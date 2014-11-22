@@ -29,6 +29,7 @@ variables = {
 }
 
 region_variables = {
+    "s": lambda view, sel: view.substr(sel),
     "r": lambda view, sel: view.rowcol(sel.b)[0] + 1,
     "c": lambda view, sel: view.rowcol(sel.b)[1] + 1,
 }
